@@ -1,10 +1,10 @@
 %==========================================================================
-% BOAT MODEL PARAM
+% PARAMETROS DO MODELO DO VEÍCULO
 %==========================================================================
 % Inicializa todos os parâmetros físicos do veículo
 function PhysicalProperties
 % Global variable(s)
-global ROV APP Lx Ly k1 Sat Pwmmax Pwmmin Fmax Nmax;
+global ROV APP Sat Fmax Nmax;
 
 % PARAMETROS A SEREM DEFINIDOS - Saturacao
 MaxVelX   = 3.05;
@@ -14,67 +14,43 @@ MaxVelAng = 2.32; %rad/s
 WpRadius  = 5; % Raio do Waypoint para que o veículo assuma Wp alcançado
 
 %%  Parametros construtivos
-m   = 20.8;
-xg  = -0.05;
-Iz  = 2.9824;
-L   = 0.586;
+m   = 2800;                 % MASSA TOTAL
+xg  = -0.05;                % DESLOCAMENTO DO CG EM X
+Iz  = 2.9824 *15;           % MOMENTO DE INÉRCIA
 
-Fmax = 2.1*9.81*4; % Força maxíma real
-Nmax = L*Fmax;
-
-Pwmmax = 1001.0;
-Pwmmin = 1.0;
-
-Lx = L*cos(pi/4.0);
-Ly = L*cos(pi/4.0);
-k1 = (Fmax/4.0)/(Pwmmax-Pwmmin);
+FM = 500  ;                 % Força de cada motor
+G =  9.81 ;                 % Força da gravidade
+N =  2    ;                 % Número de motores
 
 %% Parametros relacionados ao desenho (plot) do barco
-Loa   =   1.40;             % Comprimento do casco (metros)
-dcx   =  Loa/2;
-Bw1   =   0.20;              % Largura da linha dágua [m]
-dcbby =  Lx - Bw1/2;
-dceby = -dcbby;
+Loa   =   8.;             % Comprimento do casco (metros)
+dcx   =  Loa/3;            % Distancia entre a popa e o CG
+Bw1   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
+
+L   = dcx ;                  % DISTANCIA DO CG AO MOTOR
+
+Fmax = FM*G*N;              % Força maxíma de propulsão
+Nmax = L*Fmax;              % Torque máximo de guinada
+
+k1 = (Fmax)/(100);          % k1 Representa a relação entre potencia 0 - 100% e força 0- Fmax
 
 %% MODELO COMPLETO PARA UTILIZAÇÃO NA SIMULAÇÃO
-Xudot = -1.0400;
-Xu    = -16.3292;
-Xuu   = -3.5313;
-Yvdot = -17.2552;
-Yv    = -0.0013;
+Xudot = -1.0400 *15;
+Xu    = -16.3292 *15;
+Xuu   = -3.5313 *15;
+Yvdot = -17.2552 *15;
+Yv    = -0.0013 *15;
 Yr    = 0;
-Yvv   = -48.8006;
-Nrdot = -3.7020;
+Yvv   = -48.8006 *15;
+Nrdot = -3.7020 *15;
 Nv    = 0;
-Nr    = -18.9686;
-Nrr   = -1.1958e-05;
+Nr    = -18.9686 *15;
+Nrr   = -1.1958e-05 *15;
 Yrdot = 0;
 Yvr   = 0;
 Nrv   = 0;
 Nvv   = 0;
 Nvr   = 0;
-
-%% APROXIMAÇÃO DE 1 ORDEM PARA CALCULO DO CONTROLADOR
-% % Parametros de massa adicionada
-% Xudot = -2 ;%0*-11.2;
-% Xu    = -15.8;
-% Xuu   =  0; 
-% 
-% Yvdot = -26; %0*-68.1;
-% Yv    = -22;
-% Yvv   =  0;   
-% 
-% Nrdot = -8.65; %0*-148.8;
-% Nr    = -13.2;
-% Nrr   =   0;
-% 
-% Yrdot =   0;
-% Yr    =   0;
-% Yvr   =   0;    
-% Nv    =   0;
-% Nrv   =   0;
-% Nvv   =   0;
-% Nvr   =   0;
 
 %% Momentos e produtos de Inércia
 CG = [xg;0;0];
@@ -92,9 +68,9 @@ IMra =  [ -Xudot    0         0;
 %% Matriz de massa
 IM = IMrb + IMra;                 % 6.48    7.8     
 
-%% Constante de Tempo
+%% Constante de Tempo  -- PARA RESPOSTA DO MOTOR -- FUTURAMENTE
 settling_time_mt  = 0.3;
-settling_time_srv = 1.0; %//1.5;
+settling_time_srv = 1.0; 
 
 tau_mt  = settling_time_mt/5;    % Motors
 tau_srv = settling_time_srv/5;   % Servos
@@ -105,8 +81,8 @@ ROV = struct('mass',m,'ICG',Iz,'InertiaMatrix',IM,'IMrb',IMrb,'IMra',IMra,...
     'InverseInertia',inv(IM),'Xudot',Xudot,'Yvdot',Yvdot,'Yrdot',Yrdot,...
     'Nrdot',Nrdot,'Xuu', Xuu,'Yvv',Yvv,'Yvr',Yvr,'Nrv',Nrv,'Nvv',Nvv,...
     'Nvr', Nvr, 'Nrr', Nrr,'Xu', Xu, 'Yv', Yv, 'Yr', Yr, 'Nv', Nv,...
-    'Nr', Nr, 'dcx', dcx,'dcbby', dcbby, 'dceby', dceby, 'CG', CG,...
-    'Bw1',Bw1,'Loa',Loa,'Lx',Lx,'Ly',Ly,'k1',k1,'WpRadius',WpRadius);
+    'Nr', Nr, 'dcx', dcx, 'CG', CG,...
+    'Bw1',Bw1,'Loa',Loa,'k1',k1,'WpRadius',WpRadius);
 
 APP = struct('tau_mt', tau_mt,'tau_srv',tau_srv);
 end

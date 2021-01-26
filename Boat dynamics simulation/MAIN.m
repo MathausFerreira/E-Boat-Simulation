@@ -1,27 +1,43 @@
-clear all; close all; clc;
-%% Configuration
-global Sim Sim_Plot Time ROV Torque SLC;
+% PARAMETROS IMPORTANTES
+% CO  - Centro da Origem (center of origin)
+% CG  - Centro de gravidade (Center of Gravity)
+% CB  - Centro de Flutuação (Center of buoyancy) - Dinâmico
+% CF  - Centro de Flutuação (Center of flotation)- Estático é o centro da
+% área do fundo do casco
 
-% Plot Configuration
-Plot       = 01;         % 1 - Plot online Figures or      0 - False
+
+%% SIMULAÇÃO DESENVOLVIDA NO PROJETO E-BOAT PARA ESTÁTICA E DINÂMCIA DA EMBARCAÇÃO
+%
+% Responsável: Mathaus Ferreira da Silva -
+% mathaus.silva@engenharia.ufjf.br
+%
+%%
+
+clear all; close all; clc;
+%% CONFIGURAÇÃO 
+global Sim Sim_Plot Time ROV Torque SLC;        % Variáveis Globais
+
+%COnfiguração de Plot
+Plot       = 01;         % 1 - Para plotar figuras durante a simulação / 0 caso contrário.
 Plot_Step  = 20;         % Step to dynamic plot
-Salvar     = 01;         % 1 - Save Data to Plot Figure or 0 - False
+Salvar     = 01;         % 1 - Para salvar as figuras plotadas / 0 caso contrário
 
 %% Initialisation
 Initialisation;                 % Time and some variables
 PhysicalProperties;             % Catamaran Physical Properties
+
+CALADO = AlturaLinhaAgua(ROV.mass);
+
 Calc_Controllers;               % Control gain Project
 
 %% Auxiliar variables
  Aux = [];
 
-%% Start Simulation
-tic;                % Starts the stopwatch timer and iterative simulation
-
-%% SP DE ENTRADA
+%% Inicio da Simulação
+tic;                            % Inicia o timer da simulação
 
 for i = 1:numel(Time)
-     Sim.Vel(:,i) = [10;0;0];
+     Sim.Vel(:,i) = [100;0;0];
  
     for j = (SLC.Freq*(i-1)+1):SLC.Freq*(i)
         %% Controlador de Velocidade
@@ -49,7 +65,7 @@ for i = 1:numel(Time)
     end
     % Plot online Figure
     if(mod(i,Plot_Step)==0 && Plot==1)
-        Plot_general(j);
+        PlotBarco();
         pause(1)
     end
     
