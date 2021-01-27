@@ -28,12 +28,12 @@ Initialisation;                 % Time and some variables
 PhysicalProperties;             % Catamaran Physical Properties
 
 figure(1)
-LinhaDagua;                     % Plota a altura da linha d'agua no casco
+LinhaDagua;                     %Pl
 
-Calc_Controllers;               % Controlador de velocidade
+Calc_Controllers;               % Control gain Project
 
 %% Auxiliar variables
-Aux = [];
+ Aux = [];
 
 %% Inicio da Simulação
 tic;                            % Inicia o timer da simulação

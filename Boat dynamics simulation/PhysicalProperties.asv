@@ -23,11 +23,11 @@ G =  9.81 ;                 % Força da gravidade
 N =  2    ;                 % Número de motores
 
 %% Parametros relacionados ao desenho (plot) do barco
-Loa   =   8.;               % Comprimento do casco (metros)
-dcx   =  Loa/3;             % Distancia entre a popa e o CG
+Loa   =   8.;             % Comprimento do casco (metros)
+dcx   =  Loa/3;            % Distancia entre a popa e o CG
 Bw1   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
 
-L   = dcx ;                 % DISTANCIA DO CG AO MOTOR
+L   = dcx ;                  % DISTANCIA DO CG AO MOTOR
 
 Fmax = FM*G*N;              % Força maxíma de propulsão
 Nmax = L*Fmax;              % Torque máximo de guinada

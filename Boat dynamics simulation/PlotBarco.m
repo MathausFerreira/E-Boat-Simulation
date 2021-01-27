@@ -23,6 +23,7 @@ zd = zeros(1,length(yd));
 % Aplica a Rotação ajustando a posição ao centro do desenho
 XY = M_rotacao * [xd;yd;zd];
 
+figure(2)
 %% SEMPRE QUE PLOTAR POSIÇÃO - TROCAR X POR Y POR CONTA DO FRAME DO BARCO
 fill(Sim.Current_X_Y_psi(1) + XY(1,:), Sim.Current_X_Y_psi(2) + XY(2,:),[0.5 0.5 1],'linewidth',1); % Barco
 
