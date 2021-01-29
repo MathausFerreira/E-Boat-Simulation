@@ -5,7 +5,6 @@
 % CF  - Centro de Flutuação (Center of flotation)- Estático é o centro da
 % área do fundo do casco
 
-
 %% SIMULAÇÃO DESENVOLVIDA NO PROJETO E-BOAT PARA ESTÁTICA E DINÂMCIA DA EMBARCAÇÃO
 %
 % Responsável: Mathaus Ferreira da Silva -
@@ -19,7 +18,7 @@ global Sim Sim_Plot Time ROV Torque SLC;        % Variáveis Globais
 
 %COnfiguração de Plot
 Plot       = 01;         % 1 - Para plotar figuras durante a simulação / 0 caso contrário.
-Plot_Step  = 20;         % Step to dynamic plot
+Plot_Step  = 20;         % Tempo para plot dinâmico
 Salvar     = 01;         % 1 - Para salvar as figuras plotadas / 0 caso contrário
 
 %% Initialisation
