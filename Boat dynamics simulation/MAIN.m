@@ -6,10 +6,8 @@
 % área do fundo do casco
 
 %% SIMULAÇÃO DESENVOLVIDA NO PROJETO E-BOAT PARA ESTÁTICA E DINÂMCIA DA EMBARCAÇÃO
-%
 % Responsável: Mathaus Ferreira da Silva -
 % mathaus.silva@engenharia.ufjf.br
-%
 %%
 
 clear all; close all; clc;
@@ -17,26 +15,23 @@ clear all; close all; clc;
 global Sim Sim_Plot Time ROV Torque SLC;        % Variáveis Globais
 
 %COnfiguração de Plot
-Plot       = 01;         % 1 - Para plotar figuras durante a simulação / 0 caso contrário.
-Plot_Step  = 20;         % Tempo para plot dinâmico
-Salvar     = 01;         % 1 - Para salvar as figuras plotadas / 0 caso contrário
+Plot       = 0;         % 1 - Para plotar figuras durante a simulação / 0 caso contrário.
+Plot_Step  = 20;        % Tempo para plot dinâmico
+Salvar     = 01;        % 1 - Para salvar as figuras plotadas / 0 caso contrário
 
-%% Initialisation
+%%
 Initialisation;                 % Time and some variables
-
 PhysicalProperties;             % Catamaran Physical Properties
-
-figure(1)
-LinhaDagua;                     % Plota a altura da linha d'agua no casco
-
 Calc_Controllers;               % Controlador de velocidade
 
 %% Auxiliar variables
 Aux = [];
 
 %% Inicio da Simulação
-tic;                            % Inicia o timer da simulação
+figure(1)
+LinhaDagua;                     % Plota a altura da linha d'agua no casco
 
+tic;                            % Inicia o timer da simulação
 for i = 1:numel(Time)
      Sim.Vel(:,i) = [100;0;0];
  
@@ -61,8 +56,6 @@ for i = 1:numel(Time)
         Sim_Plot.u_v_r(:,j)   = Sim.Current_u_v_r;
         Sim_Plot.X_Y_psi(:,j) = Sim.Current_X_Y_psi;
         
-        spd(:,j) = BF2NED(Sim.Current_X_Y_psi(3),[Sim.Vel(1,i);0;0]);
-        ayp(:,j) = BF2NED(Sim.Current_X_Y_psi(3),[0;2*Sim.Vel(2,i);0]);
     end
     % Plot online Figure
     if(mod(i,Plot_Step)==0 && Plot==1)
@@ -71,7 +64,10 @@ for i = 1:numel(Time)
     end
     
 end
-
 %% Stops and reads the stopwatch timer
 elapsedTime = toc;
 fprintf('Total simulation time = %0.4fs\n', elapsedTime);
+
+plotFinal;
+
+

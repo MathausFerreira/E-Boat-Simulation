@@ -14,20 +14,32 @@ MaxVelAng = pi/10; %rad/s
 WpRadius  = 5; % Raio do Waypoint para que o veículo assuma Wp alcançado
 
 %%  Parametros construtivos
-m   = 2800;                 % MASSA TOTAL
-xg  = -0.05;                % DESLOCAMENTO DO CG EM X
-Iz  = 2.9824 *15;           % MOMENTO DE INÉRCIA
 
 FM = 500  ;                 % Força de cada motor
 G =  9.81 ;                 % Força da gravidade
 N =  2    ;                 % Número de motores
 
-%% Parametros relacionados ao desenho (plot) do barco
-Loa   =   8.;               % Comprimento do casco (metros)
+%% Massas do veículo
+motor_mass  = 100;
+casco_mass  = 2000;
+extra_mass  = 500;
+passageiros = 20*80;
+bateria     = 50;
+N_baterias  = 5;
+sist_aciona = 100;
+% MASSA TOTAL
+Massa_total   =  N*motor_mass + casco_mass + extra_mass + passageiros + ...
+    N_baterias*bateria + sist_aciona; 
+
+%%
+xg            = -0.05;                % DESLOCAMENTO DO CG EM X
+Iz            = 2.9824 *15;           % MOMENTO DE INÉRCIA
+
+%% Parametros relacionados a dimensão do barco
+Loa   =  10.;               % Comprimento do casco (metros)
 dcx   =  Loa/3;             % Distancia entre a popa e o CG
 Bw1   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
-
-L   = dcx ;                 % DISTANCIA DO CG AO MOTOR
+L     = dcx ;               % DISTANCIA DO CG AO MOTOR (motor de popa)
 
 Fmax = FM*G*N;              % Força maxíma de propulsão
 Nmax = L*Fmax;              % Torque máximo de guinada
@@ -56,9 +68,9 @@ Nvr   = 0;
 CG = [xg;0;0];
 
 % Matriz de massa de corpo rígido   6.7 --- 7.12
-IMrb = [ m       0       0; 
-         0       m    m*xg; 
-         0    m*xg      Iz];
+IMrb = [ Massa_total       0       0; 
+         0       Massa_total    Massa_total*xg; 
+         0    Massa_total*xg      Iz];
 
 % Matrix de massa adicionada    6.50 -- 7.14
 IMra =  [ -Xudot    0         0; 
@@ -77,7 +89,7 @@ tau_srv = settling_time_srv/5;   % Servos
 
 Sat = struct('F_motor',Fmax,'torque', Nmax,'MaxVelX',MaxVelX,'MaxVelY',MaxVelY,'MaxVelAng',MaxVelAng);
 
-ROV = struct('mass',m,'ICG',Iz,'InertiaMatrix',IM,'IMrb',IMrb,'IMra',IMra,...
+ROV = struct('mass',Massa_total,'ICG',Iz,'InertiaMatrix',IM,'IMrb',IMrb,'IMra',IMra,...
     'InverseInertia',inv(IM),'Xudot',Xudot,'Yvdot',Yvdot,'Yrdot',Yrdot,...
     'Nrdot',Nrdot,'Xuu', Xuu,'Yvv',Yvv,'Yvr',Yvr,'Nrv',Nrv,'Nvv',Nvv,...
     'Nvr', Nvr, 'Nrr', Nrr,'Xu', Xu, 'Yv', Yv, 'Yr', Yr, 'Nv', Nv,...
