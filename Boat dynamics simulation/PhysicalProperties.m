@@ -29,7 +29,7 @@ N_baterias  = 5;
 sist_aciona = 100;
 % MASSA TOTAL
 Massa_total   =  N*motor_mass + casco_mass + extra_mass + passageiros + ...
-    N_baterias*bateria + sist_aciona; 
+    N_baterias*bateria + sist_aciona 
 
 %%
 xg            = -0.05;                % DESLOCAMENTO DO CG EM X
@@ -41,7 +41,7 @@ dcx   =  Loa/3;             % Distancia entre a popa e o CG
 Bw1   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
 L     = dcx ;               % DISTANCIA DO CG AO MOTOR (motor de popa)
 
-Fmax = FM*G*N;              % Força maxíma de propulsão
+Fmax = FM*N;              % Força maxíma de propulsão
 Nmax = L*Fmax;              % Torque máximo de guinada
 
 k1 = (Fmax)/(100);          % k1 Representa a relação entre potencia 0 - 100% e força 0- Fmax
@@ -70,7 +70,7 @@ CG = [xg;0;0];
 % Matriz de massa de corpo rígido   6.7 --- 7.12
 IMrb = [ Massa_total       0       0; 
          0       Massa_total    Massa_total*xg; 
-         0    Massa_total*xg      Iz];
+         0       Massa_total*xg      Iz];
 
 % Matrix de massa adicionada    6.50 -- 7.14
 IMra =  [ -Xudot    0         0; 

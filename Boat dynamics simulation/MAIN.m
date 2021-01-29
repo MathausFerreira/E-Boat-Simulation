@@ -33,7 +33,8 @@ LinhaDagua;                     % Plota a altura da linha d'agua no casco
 
 tic;                            % Inicia o timer da simulação
 for i = 1:numel(Time)
-     Sim.Vel(:,i) = [100;0;0];
+    
+     Sim.Vel(:,i) = [50;0;0];
  
     for j = (SLC.Freq*(i-1)+1):SLC.Freq*(i)
         %% Controlador de Velocidade
