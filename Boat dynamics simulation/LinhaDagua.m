@@ -1,6 +1,6 @@
 function LinhaDagua()
 
-Base = plotBarcoFrente;
+Base = plotBarcoFrente;     % Plota o Barco e retorna o valor de referencia para o 0
 
 CALADO = AlturaLinhaAgua    % Calcula a altura da linha d'agua para o peso atual
 

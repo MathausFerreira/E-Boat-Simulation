@@ -1,14 +1,13 @@
+%% SIMULAÇÃO DESENVOLVIDA NO PROJETO E-BOAT PARA ESTÁTICA E DINÂMCIA DA EMBARCAÇÃO
+% Responsável: Mathaus Ferreira da Silva -
+% mathaus.silva@engenharia.ufjf.br
+%%
 % PARAMETROS IMPORTANTES
 % CO  - Centro da Origem (center of origin)
 % CG  - Centro de gravidade (Center of Gravity)
 % CB  - Centro de Flutuação (Center of buoyancy) - Dinâmico
 % CF  - Centro de Flutuação (Center of flotation)- Estático é o centro da
 % área do fundo do casco
-
-%% SIMULAÇÃO DESENVOLVIDA NO PROJETO E-BOAT PARA ESTÁTICA E DINÂMCIA DA EMBARCAÇÃO
-% Responsável: Mathaus Ferreira da Silva -
-% mathaus.silva@engenharia.ufjf.br
-%%
 
 clear all; close all; clc;
 %% CONFIGURAÇÃO 

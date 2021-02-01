@@ -14,8 +14,7 @@ MaxVelAng = pi/10; %rad/s
 WpRadius  = 5; % Raio do Waypoint para que o veículo assuma Wp alcançado
 
 %%  Parametros construtivos
-
-FM = 500  ;                 % Força de cada motor
+FM = 5000  ;                % 5000N de Força de cada motor
 G =  9.81 ;                 % Força da gravidade
 N =  2    ;                 % Número de motores
 
@@ -27,9 +26,10 @@ passageiros = 20*80;
 bateria     = 50;
 N_baterias  = 5;
 sist_aciona = 100;
+
 % MASSA TOTAL
-Massa_total   =  N*motor_mass + casco_mass + extra_mass + passageiros + ...
-    N_baterias*bateria + sist_aciona 
+Massa_total  =  N*motor_mass + casco_mass + extra_mass + passageiros + ...
+                N_baterias*bateria + sist_aciona 
 
 %%
 xg            = -0.05;                % DESLOCAMENTO DO CG EM X
@@ -41,7 +41,7 @@ dcx   =  Loa/3;             % Distancia entre a popa e o CG
 Bw1   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
 L     = dcx ;               % DISTANCIA DO CG AO MOTOR (motor de popa)
 
-Fmax = FM*N;              % Força maxíma de propulsão
+Fmax = FM*N;                % Força maxíma de propulsão
 Nmax = L*Fmax;              % Torque máximo de guinada
 
 k1 = (Fmax)/(100);          % k1 Representa a relação entre potencia 0 - 100% e força 0- Fmax
@@ -87,14 +87,15 @@ settling_time_srv = 1.0;
 tau_mt  = settling_time_mt/5;    % Motors
 tau_srv = settling_time_srv/5;   % Servos
 
-Sat = struct('F_motor',Fmax,'torque', Nmax,'MaxVelX',MaxVelX,'MaxVelY',MaxVelY,'MaxVelAng',MaxVelAng);
+Sat = struct('F_motor',Fmax,'torque', Nmax,'MaxVelX',MaxVelX,'MaxVelY',...
+            MaxVelY,'MaxVelAng',MaxVelAng);
 
-ROV = struct('mass',Massa_total,'ICG',Iz,'InertiaMatrix',IM,'IMrb',IMrb,'IMra',IMra,...
-    'InverseInertia',inv(IM),'Xudot',Xudot,'Yvdot',Yvdot,'Yrdot',Yrdot,...
-    'Nrdot',Nrdot,'Xuu', Xuu,'Yvv',Yvv,'Yvr',Yvr,'Nrv',Nrv,'Nvv',Nvv,...
-    'Nvr', Nvr, 'Nrr', Nrr,'Xu', Xu, 'Yv', Yv, 'Yr', Yr, 'Nv', Nv,...
-    'Nr', Nr, 'dcx', dcx, 'CG', CG,...
-    'Bw1',Bw1,'Loa',Loa,'k1',k1,'WpRadius',WpRadius);
+ROV = struct('mass',Massa_total,'ICG',Iz,'InertiaMatrix',IM,'IMrb',IMrb,...
+        'IMra',IMra,'InverseInertia',inv(IM),'Xudot',Xudot,'Yvdot',...
+        Yvdot,'Yrdot',Yrdot,'Nrdot',Nrdot,'Xuu', Xuu,'Yvv',Yvv,'Yvr',Yvr,...
+        'Nrv',Nrv,'Nvv',Nvv,'Nvr', Nvr, 'Nrr', Nrr,'Xu', Xu, 'Yv', Yv,...
+        'Yr', Yr, 'Nv', Nv,'Nr', Nr, 'dcx', dcx, 'CG', CG,'Bw1',Bw1,...
+        'Loa',Loa,'k1',k1,'WpRadius',WpRadius);
 
 APP = struct('tau_mt', tau_mt,'tau_srv',tau_srv);
 end
