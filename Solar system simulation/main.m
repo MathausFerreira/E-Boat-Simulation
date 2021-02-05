@@ -6,30 +6,36 @@
 % Isc - Corrente de curto-circuito
 % Imp - Corrente de máxima potência
 % Vmp - Tensão de máxima potência
-% Voc - Tebsão de circuito aberto
+% Voc - Tensão de circuito aberto
 
 clear all; close all; clc
 %% Configuração
-% Define especificações do painel e condições do ambiente
+% Definação das especificações do painel, condições de referência e parâmetros calculados
 inicializacao()
 
-global spec;
-
-% Aplica fator de correção por irradiância e temperatura
-correcao();
+% Condições do ambiente
+Ta = 25; % Temperatura do ambiente em °C (Padrão: 25°C)
+Gt = 1000; % Irradiância solar em W/m^2 (Padrão: 1000 W/m^2)
 
 %% Modelagem da relação tensão-corrente
-% Inicialização dos vetores de tensões e correntes
-V = [0:.0001:spec.Voc];
-I = zeros(1,length(V));
-for i=1:length(I)
-    % Aplica a relação tensão-corrente do painel fotovoltáico
-    I(i) = curva_v_x_i(V(i));
-end
+% Aplicação do fator de correção por irradiância e temperatura
+caso = correcao(Ta, Gt);
 
-% Cálcula parâmetros de interesse
-calcula_parametros()
+% Obtenção dos valores da curva tensão-corrente do painel fotovoltáico
+[V,I] = curva_v_x_i(caso);
 
 %% Plotagem
-% Plota a curva tensão-corrente do painel fotovoltáico
-plota_curva(V, I)
+% Plotagem da curva tensão-corrente do painel fotovoltáico
+plota_curva(V, I, caso)
+
+%% Estudo de caso: Laranjal do Jari (0.801°S 52.449°O)
+% Temperatura média por mês (°C)
+Tamed = [26.5; 25.5; 25.5; 25.5; 25.5; 25.5; 26; 27.5; 28.5; 29.5; 29; 28];
+% Radiação solar diária média por mês (kWh/m^2*dia)
+Rsmed = [4.36; 4.31; 4.28; 4.29; 4.50; 4.69; 4.71; 4.99; 5.15; 5.10; 4.93; 4.46];
+
+% Cálculo da energia diária média produzida pelo painél, para cada mês do ano
+Ed = geracao_solar(Tamed, Rsmed);
+
+% Plotagem da produção mensal de energia (kWh)
+plota_producao(Ed)

@@ -1,6 +1,6 @@
-% Aplica fator de correção por irradiância e temperatura
-function correcao()
-
+% Aplicação fator de correção por irradiância e temperatura
+function caso = correcao(Ta, Gt)
+% Variáveis globais
 global spec amb;
 
 % Cálculo dos resistores Rs e Rp do circuito equivalente (HECKTHEUER, 2001)
@@ -8,13 +8,18 @@ Rs = (spec.Voc-spec.Vmp)/spec.Imp;
 Rp = spec.Voc/(spec.Isc-spec.Imp);
 
 % Fatores de correção
-T = amb.Ta + 0.02*amb.Gt;
+T = Ta + 0.02*Gt;
 dT = T - amb.Tref;
-dI = (amb.alfa/100)*spec.Isc*(amb.Gt/amb.Gtref)*dT+((amb.Gt/amb.Gtref)-1)*spec.Isc;
+dI = (amb.alfa/100)*spec.Isc*(Gt/amb.Gtref)*dT+((Gt/amb.Gtref)-1)*spec.Isc;
 dV = (amb.beta/100)*spec.Voc*dT-Rs*dI;
 
-% Atualização dos valores referência
-spec.Isc = spec.Isc + dI; spec.Imp = spec.Imp + dI; 
-spec.Vmp = spec.Vmp + dV; spec.Voc = spec.Voc + dV;
+% Atualização dos parâmetros especificados
+Isc = spec.Isc + dI; 
+Imp = spec.Imp + dI; 
+Vmp = spec.Vmp + dV;
+Voc = spec.Voc + dV;
+
+% Valores corrigidos para dada temperatura e irradiância
+caso = struct('Vmp',Vmp,'Imp',Imp,'Voc',Voc,'Isc',Isc,'Ta',Ta,'Gt',Gt);
 
 end
