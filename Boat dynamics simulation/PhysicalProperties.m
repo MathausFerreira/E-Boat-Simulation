@@ -15,20 +15,20 @@ WpRadius  = 5; % Raio do Waypoint para que o veículo assuma Wp alcançado
 
 %%  Parametros construtivos
 FM = 5000  ;                % 5000N de Força de cada motor
-G =  9.81 ;                 % Força da gravidade
-N =  2    ;                 % Número de motores
+G  =  9.81 ;                 % Força da gravidade
+N_motor =  2    ;                 % Número de motores
 
 %% Massas do veículo
-motor_mass  = 100;
+motor_mass  = 62.5; % cruise 10 XL
 casco_mass  = 2000;
 extra_mass  = 500;
 passageiros = 20*80;
-bateria     = 50;
-N_baterias  = 5;
+bateria     = 36.5; % Power 48-5000
+N_baterias  = 12;
 sist_aciona = 100;
 
 % MASSA TOTAL
-Massa_total  =  N*motor_mass + casco_mass + extra_mass + passageiros + ...
+Massa_total  =  N_motor*motor_mass + casco_mass + extra_mass + passageiros + ...
                 N_baterias*bateria + sist_aciona 
 
 %%
@@ -41,7 +41,7 @@ dcx   =  Loa/3;             % Distancia entre a popa e o CG
 Bw1   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
 L     = dcx ;               % DISTANCIA DO CG AO MOTOR (motor de popa)
 
-Fmax = FM*N;                % Força maxíma de propulsão
+Fmax = FM*N_motor;                % Força maxíma de propulsão
 Nmax = L*Fmax;              % Torque máximo de guinada
 
 k1 = (Fmax)/(100);          % k1 Representa a relação entre potencia 0 - 100% e força 0- Fmax

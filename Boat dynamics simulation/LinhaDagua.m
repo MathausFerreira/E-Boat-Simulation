@@ -1,4 +1,4 @@
-function LinhaDagua()
+function CALADO = LinhaDagua()
 
 Base = plotBarcoFrente;     % Plota o Barco e retorna o valor de referencia para o 0
 
@@ -8,7 +8,9 @@ aguaY = [(Base+CALADO) (Base+CALADO)]; %Não multiplicar por escala -> esse é o r
 aguaX = [-2 2];
 
 hold on 
-plot(aguaX,aguaY,'linewidth', 5,'color', [.1 .1 .7]);
+V = plot(aguaX,aguaY,'linewidth', 5,'color', [.1 .1 .7]);
+legend(V,"Linha d'água")
+text(aguaX(1)+.1,aguaY(1)+.25,""+CALADO*100+" cm")
 grid on
 hold off
 drawnow

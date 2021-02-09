@@ -27,8 +27,9 @@ Calc_Controllers;               % Controlador de velocidade
 Aux = [];
 
 %% Inicio da Simulação
-figure(1)
-LinhaDagua;                     % Plota a altura da linha d'agua no casco
+ImgParam = parametrizacaoFigura;
+figLA = figure(ImgParam.figOpt{:});
+CALADO = LinhaDagua;                     % Plota a altura da linha d'agua no casco
 
 tic;                            % Inicia o timer da simulação
 for i = 1:numel(Time)
@@ -69,5 +70,9 @@ elapsedTime = toc;
 fprintf('Total simulation time = %0.4fs\n', elapsedTime);
 
 plotFinal;
+
+if Salvar
+saveas(figLA,strcat(strcat('LinhaDagua',CALADO),'.png'))    
+end
 
 
