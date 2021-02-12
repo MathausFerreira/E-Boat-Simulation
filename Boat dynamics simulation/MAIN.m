@@ -72,7 +72,7 @@ fprintf('Total simulation time = %0.4fs\n', elapsedTime);
 plotFinal;
 
 if Salvar
-saveas(figLA,strcat(strcat('LinhaDagua',CALADO),'.png'))    
+saveas(figLA,strcat(strcat('LinhaDagua30cm',CALADO),'.png'))    
 end
 
 
