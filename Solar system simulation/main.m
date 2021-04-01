@@ -10,7 +10,7 @@
 
 clear all; close all; clc
 %% Configuração
-% Definação das especificações do painel, condições de referência e parâmetros calculados
+% Definição das especificações do painel, condições de referência e parâmetros calculados
 inicializacao()
 
 % Condições do ambiente
@@ -29,13 +29,27 @@ caso = correcao(Ta, Gt);
 plota_curva(V, I, caso)
 
 %% Estudo de caso: Laranjal do Jari (0.801°S 52.449°O)
-% Temperatura média por mês (°C)
+% Temperatura média por mês (°C), dados do CLIMATEMPO
 Tamed = [26.5; 25.5; 25.5; 25.5; 25.5; 25.5; 26; 27.5; 28.5; 29.5; 29; 28];
-% Radiação solar diária média por mês (kWh/m^2*dia)
+% Irradiação solar diária média por mês (kWh/m^2*dia), dados do CRESESB
 Rsmed = [4.36; 4.31; 4.28; 4.29; 4.50; 4.69; 4.71; 4.99; 5.15; 5.10; 4.93; 4.46];
 
 % Cálculo da energia diária média produzida pelo painél, para cada mês do ano
 Ed = geracao_solar(Tamed, Rsmed);
 
-% Plotagem da produção mensal de energia (kWh)
-plota_producao(Ed)
+% Plotagem da produção mensal de energia para um painél (kWh)
+E = plota_producao(Ed);
+
+%% Análise da carga
+% Número de baterias
+n = 8;
+% Capacidade de cada bateria, em Wh
+Capacidade = 5275;
+% Número de recargas diárias de cada bateria
+n_charge = 3;
+% Carga total diária, em W
+Carga = n*Capacidade*n_charge;
+
+%% Dimensionamento do conjunto
+% Estima o número mínimo de painéis necessários com base na carga atendida
+[N, A] = dimensionamento(Carga, Ed);

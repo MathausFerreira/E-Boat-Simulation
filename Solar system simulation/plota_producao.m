@@ -1,5 +1,5 @@
 % Plotagem da produção mensal de energia (kWh)
-function plota_producao(Ed)
+function E = plota_producao(Ed)
 D = [31;28;31;30;31;30;31;31;30;31;30;31]; % Número de dias em cada mês
 mes = [1:12]; % Número de meses
 E = zeros(1,length(mes)); % Energia mensal acumulada

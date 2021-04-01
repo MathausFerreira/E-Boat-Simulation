@@ -1,4 +1,4 @@
-% Aplicação fator de correção por irradiância e temperatura
+% Aplicação do fator de correção por irradiância e temperatura
 function caso = correcao(Ta, Gt)
 % Variáveis globais
 global spec amb;
