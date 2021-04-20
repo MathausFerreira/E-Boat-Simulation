@@ -14,9 +14,9 @@ Ctrl.ErrIVXYZprev = ErrIVXYZ;
 
 F = Ctrl.kpVel * ErrPVXYZ + Ctrl.kiVel * ErrIVXYZ + Ctrl.kdVel * Vel_dot;
 
-F(1) = Satura(F(1),Sat.F_motor,-Sat.F_motor);
-F(2) = Satura(F(2),Sat.F_motor,-Sat.F_motor);
-F(3) = Satura(F(3),Sat.torque,-Sat.torque);
+F(1) = Satura(F(1),Sat.F_motor,0);
+F(2) = Satura(F(2),Sat.F_motor,0);
+F(3) = Satura(F(3),Sat.torque,0);
 
 Sim.F(:,j) = F;
 

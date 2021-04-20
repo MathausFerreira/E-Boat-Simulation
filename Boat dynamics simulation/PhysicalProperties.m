@@ -6,8 +6,8 @@ function PhysicalProperties
 global ROV Sat Fmax Nmax;
 
 % PARAMETROS A SEREM DEFINIDOS - Saturacao
-MaxVelX   = 35;
-MaxVelY   = 0;
+MaxVelX   = 100; % Velocidade máxima deve ser a maior possível para a embarcação 
+MaxVelY   = 0;   % Barco não anda de lado
 MaxVelAng = pi/10; %rad/s
 
 WpRadius  = 5; % Raio do Waypoint para que o veículo assuma Wp alcançado
@@ -23,40 +23,42 @@ casco_mass  = 2022.6;
 extra_mass  = 500;
 passageiros = 20*80;
 bateria     = 36.5; % Power 48-5000
-N_baterias  = 12;
-sist_aciona = 100;
+N_baterias  = 8;
+sist_acionamaneto = 100;
 
 % MASSA TOTAL
 Massa_total  =  N_motor*motor_mass + casco_mass + extra_mass + ...
-                passageiros + N_baterias*bateria + sist_aciona;
+                passageiros + N_baterias*bateria + sist_acionamaneto;
 
 %%
-xg            = -0.05;                % DESLOCAMENTO DO CG EM X
-Iz            = 2.9824 *15;           % MOMENTO DE INÉRCIA
+Gain = 25;
+xg            = -.05;                % DESLOCAMENTO DO CG EM X
+Iz            = 2.9824 *Gain;           % MOMENTO DE INÉRCIA
 
 %% Parametros relacionados a dimensão do barco
 Loa   =  10.;               % Comprimento do casco (metros)
 dcx   =  Loa/3;             % Distancia entre a popa e o CG
 Bw1   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
-L     = dcx ;               % DISTANCIA DO CG AO MOTOR (motor de popa)
+L     =  dcx;               % DISTANCIA DO CG AO MOTOR (motor de popa)
 
-Fmax = FM*N_motor;                % Força maxíma de propulsão
+Fmax = FM*N_motor;          % Força maxíma de propulsão
 Nmax = L*Fmax;              % Torque máximo de guinada
 
 k1 = (Fmax)/(100);	% k1 Relação entre potencia 0 - 100% e força 0- Fmax
 
 %% Variáveis Hidrodinâmicas
-Xudot = -1.0400 *15;
-Xu    = -16.3292 *15;
-Xuu   = -3.5313 *15;
-Yvdot = -17.2552 *15;
-Yv    = -0.0013 *15;
+
+Xudot = -1.0400 *Gain;
+Xu    = -16.3292 *Gain;
+Xuu   = -3.5313 *Gain;
+Yvdot = -17.2552 *Gain;
+Yv    = -0.0013 *Gain;
 Yr    = 0;
-Yvv   = -48.8006 *15;
-Nrdot = -3.7020 *15;
+Yvv   = -48.8006 *Gain;
+Nrdot = -3.7020 *Gain;
 Nv    = 0;
-Nr    = -18.9686 *15;
-Nrr   = -1.1958e-05 *15;
+Nr    = -18.9686 *Gain;
+Nrr   = -1.1958e-05 *Gain;
 Yrdot = 0;
 Yvr   = 0;
 Nrv   = 0;

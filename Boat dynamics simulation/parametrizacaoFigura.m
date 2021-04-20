@@ -14,8 +14,6 @@ Screen = [0.2 0.2 .65 .65];
 Img.figOpt3L = {'color','w','Units','Normalized','PaperPositionMode','auto',...
     'Position',Screen,'InnerPosition',Screen};
 
-
-
 Img.Label = {'Interpreter','latex','FontWeight','bold','FontName', 'Times New Roman','FontSize',15};
 
 end

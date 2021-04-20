@@ -11,8 +11,9 @@
 
 clear all; close all; clc;
 %% CONFIGURAÇÃO 
-global Sim Sim_Plot Time ROV Torque SLC;        % Variáveis Globais
-
+global Sim Sim_Plot Time ROV Torque SLC Dv_h Cv_h;        % Variáveis Globais
+Dv_h = zeros(3,1);
+Cv_h = zeros(3,1);
 %COnfiguração de Plot
 Plot       = 0;         % 1 - Para plotar figuras durante a simulação / 0 caso contrário.
 Plot_Step  = 20;        % Tempo para plot dinâmico
@@ -21,7 +22,7 @@ Salvar     = 01;        % 1 - Para salvar as figuras plotadas / 0 caso contrário
 %%
 Initialisation;                 % Time and some variables
 PhysicalProperties;             % Catamaran Physical Properties
-Calc_Controllers;               % Controlador de velocidade
+Calc_Controllers;               % Controladores de velocidade
 
 %% Auxiliar variables
 Aux = [];
@@ -31,10 +32,11 @@ ImgParam = parametrizacaoFigura;
 figLA = figure(ImgParam.figOpt{:});
 CALADO = LinhaDagua;                     % Plota a altura da linha d'agua no casco
 
-tic;                            % Inicia o timer da simulação
+tic;          
+vc=0;% Inicia o timer da simulação
 for i = 1:numel(Time)
-    
-     Sim.Vel(:,i) = [50;0;0];
+     vc =vc+0.25;
+     Sim.Vel(:,i) = [vc;0;0];
  
     for j = (SLC.Freq*(i-1)+1):SLC.Freq*(i)
         %% Controlador de Velocidade
@@ -70,6 +72,7 @@ elapsedTime = toc;
 fprintf('Total simulation time = %0.4fs\n', elapsedTime);
 
 plotFinal;
+
 
 if Salvar
 saveas(figLA,strcat(strcat('LinhaDagua30cm',CALADO),'.png'))    

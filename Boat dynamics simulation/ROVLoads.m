@@ -3,7 +3,7 @@
 %==========================================================================
 function ROVLoads(j)
 % Global variable(s)
-global Sim  Torque ;
+global Sim  Torque Dv_h Cv_h ;
 
 % Converts forces and moments which stem from the weight force from the NED frame to the BF frame, where g = 9.80665 [m/s^2] is the accel. of gravity
 g_n = zeros(3,1);
@@ -11,9 +11,11 @@ g_n = zeros(3,1);
 % Hydrodynamic Resistance D(v)v
 D_V = Hydro_Resist(); % Parte da Equação 7.06 -- Fossen
 
+Dv_h(:,end+1) = -D_V;
 % Coriolis Effects C(v)v
 Coriolis = Coriolis_Effect_Cat(); % Parte da Equação 7.06 -- Fossen
 
+Cv_h(:,end+1) = -Coriolis;
 % Sim.NetForcesAndMoments = Torque - D_V - Coriolis - g_n; % parte da equação 3.69 (segundo parentesis)
 Sim.NetForces = D_V + Coriolis + g_n; % parte da equação 3.69 (segundo parentesis)
 
