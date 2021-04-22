@@ -2,7 +2,7 @@
 % This function computes the Coriolis Effects C(v)v acting on the ROV
 %======================================================================
 function [Results] = Coriolis_Effect_Cat()
-global ROV Sim;
+global ROV Sim  V_relative;
 
 % Parametros construtivos
 m  = ROV.mass;
@@ -16,9 +16,9 @@ Nrdot =  ROV.Nrdot;
 
 % --- Montagem da matriz de coriolis
 
-u = Sim.Current_u_v_r(1);
-v = Sim.Current_u_v_r(2);
-r = Sim.Current_u_v_r(3);
+u = Sim.Current_u_v_r(1) - V_relative(1);
+v = Sim.Current_u_v_r(2) - V_relative(2);
+r = Sim.Current_u_v_r(3) - V_relative(3);
 
 % Matriz de Coriolis - Corpo rígido 7.13
 
@@ -36,6 +36,6 @@ CV = CA + CRB; %Equação 7.9
 
 % % Parte da Equação 8.1 -- Fossen   
 
-Results = CV*Sim.Current_u_v_r;
+Results = CV*[u;v;r];
 
 end
