@@ -2,7 +2,7 @@ function plotFinal(CALADO,Salvar)
 
 ImgParam = parametrizacaoFigura;
 
-global TimeJ Sim_Plot Sim Dv_h Cv_h Dv_n Dv_l ROV V_relative
+global TimeJ Sim_Plot Sim Dv_h Cv_h Dv_n Dv_l ROV V_relative SAVE
 
 % % % %% POSIÇÃO
 % % % figPos = figure(ImgParam.figOpt1L{:});
@@ -117,7 +117,42 @@ legend('Total','N\~{a}o Linear',...
     'Linear',ImgParam.Legend{:},'Location','best','NumColumns',3)
 
 linkaxes([ax1 ax2 ax3],'x');
+%% COMPARATIVO
 
+lege ={"CC Plena Carga","CC M\'{e}dia Carga","CC A vazio",...
+        "SC Plena Carga","SC M\'{e}dia Carga","SC A vazio",...
+        "FC Plena Carga","FC M\'{e}dia Carga","FC A vazio"}
+
+ang=10;
+FIGCOMP = figure(ImgParam.figOpt3L{:});
+ax1 =subplot(311);
+plot(SAVE.Fmax,'-o','linewidth',2,'MarkerSize',5); grid on;
+ylabel('For\c{c}a(N)',ImgParam.Label{:});
+set(gca,ImgParam.Tlabel{:})
+set(gca,'XTickLabel',lege);
+xtickangle(ang)
+ylim([0 10000])
+% set(gca,'XTickLabel',lege,'TickLabelInterpreter ','latex')
+
+ax2 =subplot(312);
+plot(SAVE.Vmax,'-o','linewidth',2,'MarkerSize',5); grid on;
+% xlabel('Simula\c{c}\~{a}o',ImgParam.Label{:});
+ylabel('Velocidade (m/s)',ImgParam.Label{:});
+set(gca,ImgParam.Tlabel{:})
+set(gca,'XTickLabel',lege);
+xtickangle(ang)
+
+ax3 =subplot(313);
+plot(SAVE.DvMax,'-ob','linewidth',2,'MarkerSize',5); grid on;hold on;
+plot(SAVE.Dv_nMax,'-om','linewidth',2,'MarkerSize',5);
+plot(SAVE.Dv_lMax,'-or','linewidth',2,'MarkerSize',5);
+% xlabel('Simula\c{c}\~{a}o',ImgParam.Label{:});
+ylabel('Amortecimento (kg.m/s)',ImgParam.Label{:});
+set(gca,ImgParam.Tlabel{:})
+set(gca,'XTickLabel',lege);
+xtickangle(ang)
+
+%% SAVE
 if Salvar
     ax1 = strcat('Figs/Vrelat_',string(V_relative(1)));
     ax2 = strcat(ax1,'_Calado_');
@@ -128,6 +163,7 @@ if Salvar
     ax7 = strcat(ax6,string(Sim_Plot.X_Y_psi(1,end)));
     
     saveas(figALL,strcat(strcat(ax7,'_ALL'),'.png'))
+    saveas(FIGCOMP,strcat('Figs/Comparativo','.png'))
     %     saveas(figVel,strcat(strcat(ax7,'_Vel'),'.png'))
     %     saveas(figForca,strcat(strcat(ax7,'_Force'),'.png'))
     %     saveas(fighidro,strcat(strcat(ax7,'_hidro'),'.png'))

@@ -20,4 +20,5 @@ Img.figOpt3L = {'color','w','Units','Normalized','PaperPositionMode','auto',...
 
 Img.Label = {'Interpreter','latex','FontWeight','bold','FontName', 'Times New Roman','FontSize',15};
 Img.Legend = {'Interpreter','latex','FontWeight','bold','FontName', 'Times New Roman','FontSize',12};
+Img.Tlabel = {'TickLabelInterpreter','latex','FontWeight','bold','FontName', 'Times New Roman','FontSize',12};
 end

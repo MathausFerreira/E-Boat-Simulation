@@ -13,17 +13,25 @@ clear all; close all; clc;
 %% CONFIGURAÇÃO
 global Sim V_relative Sim_Plot Time ROV Torque SLC Dv_h Cv_h Dv_n Dv_l;        % Variáveis Globais
 
+global SAVE
+SAVE.Fmax = [];
+SAVE.Vmax = [];
+SAVE.DvMax = [];
+SAVE.Dv_nMax = [];
+SAVE.Dv_lMax = [];
+
 %COnfiguração de Plot
 Plot       = 0;         % 1 - Para plotar figuras durante a simulação / 0 caso contrário.
 Plot_Step  = 20;        % Tempo para plot dinâmico
-Salvar     = 01;        % 1 - Para salvar as figuras plotadas / 0 caso contrário
+Salvar     = 1;        % 1 - Para salvar as figuras plotadas / 0 caso contrário
 
 padrao = [80  0  15/20];
-Param  = [1*padrao;
+Param  = [20*padrao;
     10*padrao;
-    20*padrao+[0 0 0]];
+    1*padrao+[0 0 0]];
 
-V_relat_vec = [6;0;-6];
+V_relat_vec = [-6;0;6];
+   
 
 for p = 1:length(V_relat_vec)
     V_relative = [V_relat_vec(p) 0 0]; % Velocidade da correnteza
@@ -79,8 +87,14 @@ for p = 1:length(V_relat_vec)
                 PlotBarco();
                 pause(1)
             end
-            
         end
+        %%
+        SAVE.Fmax(end+1)    = max(Sim.F(1,:));
+        SAVE.Vmax(end+1)    = max(Sim_Plot.u_v_r(1,:));
+        SAVE.DvMax(end+1)   = max(-Dv_h(1,:));
+        SAVE.Dv_nMax(end+1) = max(-Dv_n(1,:));
+        SAVE.Dv_lMax(end+1) = max(-Dv_l(1,:));
+        
         %% Stops and reads the stopwatch timer
         elapsedTime = toc;
         fprintf('Total simulation time = %0.4fs\n', elapsedTime);
