@@ -25,16 +25,16 @@ Plot       = 0;         % 1 - Para plotar figuras durante a simulação / 0 caso c
 Plot_Step  = 20;        % Tempo para plot dinâmico
 Salvar     = 1;        % 1 - Para salvar as figuras plotadas / 0 caso contrário
 
-padrao = [80  0  15/20];
-Param  = [20*padrao;
-    10*padrao;
-    1*padrao+[0 0 0]];
+pesoPadrao = 80; %kg
+Param  = [21*pesoPadrao, 500;
+          10*pesoPadrao, 250;
+           1*pesoPadrao,  0];
 
-V_relat_vec = [-6;0;6];
+V_relat_vec = [-6;0;6]; %km/h
    
 
 for p = 1:length(V_relat_vec)
-    V_relative = [V_relat_vec(p) 0 0]; % Velocidade da correnteza
+    V_relative = [kmhToms(V_relat_vec(p)) 0 0]; % Velocidade da correnteza
     
     for h=1:length(Param(:,1))
         %%
@@ -44,7 +44,7 @@ for p = 1:length(V_relat_vec)
         Dv_l = zeros(3,1);
         
         Initialisation;                 % Time and some variables
-        PhysicalProperties2(Param(h,1),Param(h,2),Param(h,3));             % Catamaran Physical Properties
+        PhysicalProperties2(Param(h,1),Param(h,2));             % Catamaran Physical Properties
         Calc_Controllers;               % Controladores de velocidade
         
         %% Auxiliar variables
@@ -54,7 +54,7 @@ for p = 1:length(V_relat_vec)
         %% Inicio da Simulação
         ImgParam = parametrizacaoFigura;
         figLA = figure(ImgParam.figOpt{:});
-        CALADO = LinhaDagua;                     % Plota a altura da linha d'agua no casco
+        CALADO = LinhaDagua(1);                     % Plota a altura da linha d'agua no casco
         
         tic; % Inicia o timer da simulação
         for i = 1:numel(Time)

@@ -1,10 +1,10 @@
 %==========================================================================
 % PARAMETROS DO MODELO DO VEÍCULO
 % Inicializa todos os parâmetros físicos do veículo
-function PhysicalProperties2(passageiros,extra_mass,Gain)
+function PhysicalProperties2(passageiros,extra_mass)
 % Global variable(s)
 global ROV Sat Fmax Nmax;
-min = 3;
+
 % PARAMETROS A SEREM DEFINIDOS - Saturacao
 MaxVelX   = 100; % Velocidade máxima deve ser a maior possível para a embarcação 
 MaxVelY   = 0;   % Barco não anda de lado
@@ -30,16 +30,23 @@ sist_acionamaneto = 100;
 Massa_total  =  N_motor*motor_mass + casco_mass + extra_mass + ...
                 passageiros + N_baterias*bateria + sist_acionamaneto;
 
-%%
-% Gain = 25;
-xg            = -.05;                % DESLOCAMENTO DO CG EM X
-Iz            = 2.9824 *(Gain+min);           % MOMENTO DE INÉRCIA
-
 %% Parametros relacionados a dimensão do barco
 Loa   =  10.;               % Comprimento do casco (metros)
 dcx   =  Loa/3;             % Distancia entre a popa e o CG
-Bw1   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
+Bwl   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
 L     =  dcx;               % DISTANCIA DO CG AO MOTOR (motor de popa)
+
+ROV.mass = Massa_total;
+ROV.Loa = Loa;
+ROV.Bwl = Bwl;
+
+%%
+Gmin = 3;
+Gp = 22/(0.33); %(Gmax/LwMax)
+Gain = Gp*(LinhaDagua(0));
+%%
+xg            = -.05;                % DESLOCAMENTO DO CG EM X
+Iz            = 2.9824 *(Gain+Gmin);           % MOMENTO DE INÉRCIA
 
 Fmax = FM*N_motor;          % Força maxíma de propulsão
 Nmax = L*Fmax;              % Torque máximo de guinada
@@ -48,17 +55,17 @@ k1 = (Fmax)/(100);	% k1 Relação entre potencia 0 - 100% e força 0- Fmax
 
 %% Variáveis Hidrodinâmicas
 
-Xudot = -1.0400 *(Gain+min);
-Xu    = -16.3292 *(Gain+min);
-Xuu   = -3.5313 *(Gain+min);
-Yvdot = -17.2552 *(Gain+min);
-Yv    = -0.0013 *(Gain+min);
+Xudot = -1.0400 *(Gain+Gmin);
+Xu    = -16.3292 *(Gain+Gmin);
+Xuu   = -3.5313 *(Gain+Gmin);
+Yvdot = -17.2552 *(Gain+Gmin);
+Yv    = -0.0013 *(Gain+Gmin);
 Yr    = 0;
-Yvv   = -48.8006 *(Gain+min);
-Nrdot = -3.7020 *(Gain+min);
+Yvv   = -48.8006 *(Gain+Gmin);
+Nrdot = -3.7020 *(Gain+Gmin);
 Nv    = 0;
-Nr    = -18.9686 *(Gain+min);
-Nrr   = -1.1958e-05 *(Gain+min);
+Nr    = -18.9686 *(Gain+Gmin);
+Nrr   = -1.1958e-05 *(Gain+Gmin);
 Yrdot = 0;
 Yvr   = 0;
 Nrv   = 0;
@@ -88,7 +95,7 @@ ROV = struct('mass',Massa_total,'ICG',Iz,'InertiaMatrix',IM,'IMrb',IMrb,...
         'IMra',IMra,'InverseInertia',inv(IM),'Xudot',Xudot,'Yvdot',...
         Yvdot,'Yrdot',Yrdot,'Nrdot',Nrdot,'Xuu', Xuu,'Yvv',Yvv,'Yvr',Yvr,...
         'Nrv',Nrv,'Nvv',Nvv,'Nvr', Nvr, 'Nrr', Nrr,'Xu', Xu, 'Yv', Yv,...
-        'Yr', Yr, 'Nv', Nv,'Nr', Nr, 'dcx', dcx, 'CG', CG,'Bw1',Bw1,...
+        'Yr', Yr, 'Nv', Nv,'Nr', Nr, 'dcx', dcx, 'CG', CG,'Bwl',Bwl,...
         'Loa',Loa,'k1',k1,'WpRadius',WpRadius);
 
 end

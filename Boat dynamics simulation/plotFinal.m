@@ -91,9 +91,9 @@ global TimeJ Sim_Plot Sim Dv_h Cv_h Dv_n Dv_l ROV V_relative SAVE
 %% TODAS
 figALL = figure(ImgParam.figOpt3L{:});
 ax1 =subplot(311);
-plot(TimeJ,Sim_Plot.u_v_r(1,:),'linewidth',2); grid on;
+plot(TimeJ,msTokmh(Sim_Plot.u_v_r(1,:)),'linewidth',2); grid on;
 xlabel('Tempo (s)',ImgParam.Label{:});
-ylabel('Velocidade (m/s)',ImgParam.Label{:});
+ylabel('Velocidade (km/h)',ImgParam.Label{:});
 legend('Velocidade X',ImgParam.Legend{:});
 
 ax2 =subplot(312);
@@ -121,7 +121,7 @@ linkaxes([ax1 ax2 ax3],'x');
 
 lege ={"CC Plena Carga","CC M\'{e}dia Carga","CC A vazio",...
         "SC Plena Carga","SC M\'{e}dia Carga","SC A vazio",...
-        "FC Plena Carga","FC M\'{e}dia Carga","FC A vazio"}
+        "FC Plena Carga","FC M\'{e}dia Carga","FC A vazio"};
 
 ang=10;
 FIGCOMP = figure(ImgParam.figOpt3L{:});
@@ -135,9 +135,9 @@ ylim([0 10000])
 % set(gca,'XTickLabel',lege,'TickLabelInterpreter ','latex')
 
 ax2 =subplot(312);
-plot(SAVE.Vmax,'-o','linewidth',2,'MarkerSize',5); grid on;
+plot(msTokmh(SAVE.Vmax),'-o','linewidth',2,'MarkerSize',5); grid on;
 % xlabel('Simula\c{c}\~{a}o',ImgParam.Label{:});
-ylabel('Velocidade (m/s)',ImgParam.Label{:});
+ylabel('Velocidade (km/h)',ImgParam.Label{:});
 set(gca,ImgParam.Tlabel{:})
 set(gca,'XTickLabel',lege);
 xtickangle(ang)
