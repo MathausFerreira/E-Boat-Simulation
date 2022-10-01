@@ -25,12 +25,14 @@ Plot       = 0;         % 1 - Para plotar figuras durante a simulação / 0 caso c
 Plot_Step  = 20;        % Tempo para plot dinâmico
 Salvar     = 0;        % 1 - Para salvar as figuras plotadas / 0 caso contrário
 
-V_relat_vec = [0]; %km/h
+pesoPadrao = 80; %kg
+V_relat_vec = [-6;0;6]; %km/h
    
 
 for p = 1:length(V_relat_vec)
     V_relative = [kmhToms(V_relat_vec(p)) 0 0]; % Velocidade da correnteza
     
+    for h=1:length(Param(:,1))
         %%
         Dv_h = zeros(3,1);
         Cv_h = zeros(3,1);
@@ -43,11 +45,11 @@ for p = 1:length(V_relat_vec)
         
         %% Auxiliar variables
         Aux = [];
-        vel = Sp_poli(0,10,0,kmhToms(25),0,0,Sim.Ts*SLC.Freq,Time(end));
+        vel = Sp_poli(0,5,0,50,0,0,Sim.Ts*SLC.Freq,Time(end));
         
         %% Inicio da Simulação
         ImgParam = parametrizacaoFigura;
-%         figLA = figure(ImgParam.figOpt{:});
+        figLA = figure(ImgParam.figOpt{:});
         CALADO = LinhaDagua(1);                     % Plota a altura da linha d'agua no casco
         
         tic; % Inicia o timer da simulação
@@ -92,5 +94,6 @@ for p = 1:length(V_relat_vec)
         %% Stops and reads the stopwatch timer
         elapsedTime = toc;
         fprintf('Total simulation time = %0.4fs\n', elapsedTime);     
+    end
 end
         plotFinal(CALADO,Salvar);

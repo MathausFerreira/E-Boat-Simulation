@@ -12,7 +12,7 @@ ErrIVXYZprev = zeros(3,1);
 % [kpPosi,kiPosi,kdPosi] = Calc_Position_Controller(10);
 
 %% Speed Control gain
-[kpVel,kiVel,kdVel] = Calc_Speed_Controller(20,2,2);
+[kpVel,kiVel,kdVel] = Calc_Speed_Controller(2,2,2);
 
 Ctrl = struct('ErrPXYZprev',ErrPXYZprev,'ErrIXYZprev',ErrIXYZprev,...
         'kpVel',kpVel,'kiVel',kiVel,'kdVel',kdVel,'ErrPVXYZprev',....

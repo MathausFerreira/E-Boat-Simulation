@@ -4,7 +4,7 @@ global Sim Sim_Plot Time TimeJ SLC;             % Variáveis Globais
 
 SLC.Freq   = 20;        % No caso de implementação de controle - Malha de velocidade já está configurada para rodar 20 vezes mais rápida que a malha de posição
 
-TEMPO_Sim  = 100;       % Tempo total de simulação
+TEMPO_Sim  = 20;       % Tempo total de simulação
 Ts         = 0.01;      % Tempo de amostragem para a simulação
 
 % Vetor de tempo de simulação

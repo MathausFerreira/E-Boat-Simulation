@@ -1,7 +1,7 @@
 %==========================================================================
 % PARAMETROS DO MODELO DO VEÍCULO
 % Inicializa todos os parâmetros físicos do veículo
-function PhysicalProperties2(passageiros,extra_mass)
+function PhysicalProperties2()
 % Global variable(s)
 global ROV Sat Fmax Nmax;
 
@@ -13,40 +13,40 @@ MaxVelAng = pi/10; %rad/s
 WpRadius  = 5; % Raio do Waypoint para que o veículo assuma Wp alcançado
 
 %%  Parametros construtivos
-FM = 5000  ;                % 5000N de Força de cada motor
+FM = 70  ;                 % 70N de Força de cada motor
 G  =  9.81 ;                % Força da gravidade
-N_motor =  2 ;              % Número de motores
+N_motor =  4 ;              % Número de motores
 
 %% Massas do veículo
-motor_mass  = 62.5; % cruise 10 XL
-casco_mass  = 2022.6;
-% extra_mass  = 500;
-% passageiros = 20*80;
-bateria     = 36.5; % Power 48-5000
-N_baterias  = 8;
-sist_acionamaneto = 100;
+% motor_mass  = 62.5; % cruise 10 XL
+% casco_mass  = 2022.6;
+% % extra_mass  = 500;
+% % passageiros = 20*80;
+% bateria     = 97;%36.5; % Power 48-5000
+% N_baterias  = 0;
+% sist_acionamaneto = 50;
 
 % MASSA TOTAL
-Massa_total  =  N_motor*motor_mass + casco_mass + extra_mass + ...
-                passageiros + N_baterias*bateria + sist_acionamaneto;
+Massa_total  = 92.67;% N_motor*motor_mass + casco_mass + extra_mass + ...
+                %passageiros + N_baterias*bateria + sist_acionamaneto;
 
 %% Parametros relacionados a dimensão do barco
-Loa   =  10.;               % Comprimento do casco (metros)
-dcx   =  Loa/3;             % Distancia entre a popa e o CG
-Bwl   =  2.4;               % Largura da linha dágua [m] BOCA MÁXIMA
-L     =  dcx;               % DISTANCIA DO CG AO MOTOR (motor de popa)
+Loa   =  2.3;              % Comprimento do casco (metros)
+dcx   =  0.3;              % Distancia entre a popa e o CG
+Bwl   =  0.201;            % Largura da linha dágua [m] BOCA MÁXIMA
+L     =  dcx;              % DISTANCIA DO CG AO MOTOR (motor de popa)
 
 ROV.mass = Massa_total;
 ROV.Loa = Loa;
 ROV.Bwl = Bwl;
 
 %%
-Gmin = 3;
+Gmin = 0.5;
 Gp = 22/(0.33); %(Gmax/LwMax)
-Gain = Gp*(LinhaDagua(0));
+Gain = 0*Gp*(LinhaDagua(0));
 %%
-xg            = -.05;                % DESLOCAMENTO DO CG EM X
-Iz            = 2.9824 *(Gain+Gmin);           % MOMENTO DE INÉRCIA
+xg            = -.05;                           % DESLOCAMENTO DO CG EM X
+Iz            = 21.7828;            % kg*m²
 
 Fmax = FM*N_motor;          % Força maxíma de propulsão
 Nmax = L*Fmax;              % Torque máximo de guinada

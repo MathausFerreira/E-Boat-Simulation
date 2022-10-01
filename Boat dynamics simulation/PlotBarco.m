@@ -5,15 +5,14 @@
 % z   = Posição z do veículo no referencial Global
 % yaw = Angulo de yaw do veículo no referencial fixo do corpo
 %%
-
 function [] = PlotBarco() 
-global ROV Sim;
+global ROV Sim Sim_Plot;
 
 yaw = Sim.Current_X_Y_psi(3);       % Guinada atual do veículo
 
 M_rotacao = NED2BF(yaw,eye(3));     % Matriz de Rotação (Rotação em Z)
 
-Bcl = ROV.Bw1;                      % Bcl = largura do casco (maior que a linha dagua)
+Bcl = ROV.Bwl;                      % Bcl = largura do casco (maior que a linha dagua)
 
 %% Estrutura externa 
 yd = [(Bcl/2)    , (Bcl/2)   , 0           , (-Bcl/2)  , (-Bcl/2)   ,  (+Bcl/2)];
@@ -26,11 +25,14 @@ XY = M_rotacao * [xd;yd;zd];
 figure(2)
 %% SEMPRE QUE PLOTAR POSIÇÃO - TROCAR X POR Y POR CONTA DO FRAME DO BARCO
 fill(Sim.Current_X_Y_psi(1) + XY(1,:), Sim.Current_X_Y_psi(2) + XY(2,:),[0.5 0.5 1],'linewidth',1); % Barco
-
-grid on 
-
+hold on 
+plot(Sim_Plot.X_Y_psi(1,1:20:end),Sim_Plot.X_Y_psi(2,1:20:end),'.b')
 Zoom = 20;
 axis([(Sim.Current_X_Y_psi(1)-Zoom) (Sim.Current_X_Y_psi(1)+Zoom)...
       (Sim.Current_X_Y_psi(2)-Zoom) (Sim.Current_X_Y_psi(2)+Zoom)])
+grid on
+hold off
+
+
 
 end
